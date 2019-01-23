@@ -2,8 +2,7 @@ package pro.zackpollard.luxorexporter;
 
 import io.prometheus.client.Collector;
 import io.prometheus.client.GaugeMetricFamily;
-import io.prometheus.client.Histogram;
-import pro.zackpollard.luxorexporter.api.rx.LuxorRxApi;
+import pro.zackpollard.luxorexporter.api.rx.LuxorRetrofitApi;
 import pro.zackpollard.luxorexporter.api.types.LuxorApi;
 import pro.zackpollard.luxorexporter.api.types.Miner;
 import retrofit2.Retrofit;
@@ -30,11 +29,11 @@ public class LuxorCollector extends Collector {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        LuxorRxApi luxorRxApi = retrofit.create(LuxorRxApi.class);
+        LuxorRetrofitApi luxorRetrofitApi = retrofit.create(LuxorRetrofitApi.class);
 
         LuxorApi luxorApi = new LuxorApi();
         try {
-            luxorApi = luxorRxApi.getUserStats("ba1e9620ed77fb1cb323d9aa5943f1f8caae64e343f4239034dac925f6a0c30eac8e3bc716d0").execute().body();
+            luxorApi = luxorRetrofitApi.getUserStats("ba1e9620ed77fb1cb323d9aa5943f1f8caae64e343f4239034dac925f6a0c30eac8e3bc716d0").execute().body();
         } catch (IOException e) {
             e.printStackTrace();
         }
