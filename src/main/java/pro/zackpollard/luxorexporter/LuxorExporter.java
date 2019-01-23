@@ -1,13 +1,8 @@
 package pro.zackpollard.luxorexporter;
 
-import com.sun.net.httpserver.HttpServer;
-import io.micrometer.prometheus.PrometheusConfig;
-import io.micrometer.prometheus.PrometheusMeterRegistry;
 import io.prometheus.client.exporter.HTTPServer;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.InetSocketAddress;
 
 public class LuxorExporter {
 
