@@ -15,30 +15,11 @@ public class LuxorExporter {
 
     public static void main(String[] args) {
 
-        new LuxorExporter(args).startPrometheusExporter();
+        new LuxorExporter(args);
     }
 
     public LuxorExporter(String[] args) {
-    }
-
-    public void startMicrometer() {
-        PrometheusMeterRegistry registry = new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
-        registry.config().commonTags("application", "Luxor-Exporter");
-
-        try {
-            HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
-            server.createContext("/metrics", httpExchange -> {
-                String response = registry.scrape();
-                httpExchange.sendResponseHeaders(200, response.getBytes().length);
-                try (OutputStream os = httpExchange.getResponseBody()) {
-                    os.write(response.getBytes());
-                }
-            });
-
-            new Thread(server::start).start();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        this.startPrometheusExporter();
     }
 
     public void startPrometheusExporter() {

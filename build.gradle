@@ -19,8 +19,6 @@ dependencies {
     compile group: 'com.squareup.retrofit2', name: 'converter-gson', version: '2.5.0'
     compile group: 'com.squareup.retrofit2', name: 'adapter-rxjava', version: '2.5.0'
 
-    compile group: 'io.micrometer', name: 'micrometer-registry-prometheus', version: 'latest.integration'
-
     compile group: 'io.prometheus', name: 'simpleclient', version:'0.6.0'
     compile group: 'io.prometheus', name: 'simpleclient_httpserver', version: '0.6.0'
     compile group: 'io.prometheus', name: 'simpleclient_hotspot', version: '0.6.0'
