@@ -20,7 +20,7 @@ public class Miner {
     @SerializedName("hashrate_six_hour")
     private double hashrateSixHour;
     @SerializedName("last_share_time")
-    private long lastShareTime;
+    private double lastShareTime;
     @SerializedName("miner_type")
     private String minerType;
     private String name;
@@ -35,16 +35,15 @@ public class Miner {
     @SerializedName("revenue_six_hour")
     private String revenueSixHour;
     @SerializedName("stale_fifteen_min")
-    private long staleFifteenMin;
+    private double staleFifteenMin;
     @SerializedName("stale_five_min")
-    private long staleFiveMin;
+    private double staleFiveMin;
     @SerializedName("stale_one_day")
-    private long staleOneDay;
+    private double staleOneDay;
     @SerializedName("stale_one_hour")
-    private long staleOneHour;
+    private double staleOneHour;
     @SerializedName("stale_six_hour")
-    private long staleSixHour;
+    private double staleSixHour;
     @SerializedName("total_shares")
     private double totalShares;
-
 }

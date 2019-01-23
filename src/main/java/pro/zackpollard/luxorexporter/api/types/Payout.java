@@ -13,5 +13,4 @@ public class Payout {
     @SerializedName("tx_id")
     private String txId;
     private String username;
-
 }

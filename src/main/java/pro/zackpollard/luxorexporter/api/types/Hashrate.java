@@ -8,6 +8,5 @@ import lombok.Data;
 public class Hashrate {
 
     private double hashrate;
-    private long time;
-
+    private double time;
 }
