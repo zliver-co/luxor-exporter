@@ -42,24 +42,24 @@ public class LuxorCollector extends Collector {
 
         List<MetricFamilySamples> mfs = new ArrayList<>();
 
-        GaugeMetricFamily balanceGauge = new GaugeMetricFamily("balance", "The current total balance of the account", BASE_LABEL_NAMES);
+        GaugeMetricFamily balanceGauge = new GaugeMetricFamily("luxor_balance", "The current total balance of the account", BASE_LABEL_NAMES);
         balanceGauge.addMetric(BASE_LABEL_VALUES, luxorApi.getTotalPayouts());
         mfs.add(balanceGauge);
 
-        GaugeMetricFamily blocksFoundGauge = new GaugeMetricFamily("blocks_found", "The total blocks that this account has found", BASE_LABEL_NAMES);
+        GaugeMetricFamily blocksFoundGauge = new GaugeMetricFamily("luxor_blocks_found", "The total blocks that this account has found", BASE_LABEL_NAMES);
         blocksFoundGauge.addMetric(BASE_LABEL_VALUES, luxorApi.getBlocksFound());
         mfs.add(blocksFoundGauge);
 
-        GaugeMetricFamily lastShareTimeGauge = new GaugeMetricFamily("last_share_time", "The timestamp of when the last share was received by luxor", BASE_LABEL_NAMES);
+        GaugeMetricFamily lastShareTimeGauge = new GaugeMetricFamily("luxor_last_share_time", "The timestamp of when the last share was received by luxor", BASE_LABEL_NAMES);
         lastShareTimeGauge.addMetric(BASE_LABEL_VALUES, luxorApi.getLastShareTime());
         mfs.add(lastShareTimeGauge);
 
-        GaugeMetricFamily unpaidBalanceGauge = new GaugeMetricFamily("unpaid_balance", "The total unpaid balance on the account currently", BASE_LABEL_NAMES);
+        GaugeMetricFamily unpaidBalanceGauge = new GaugeMetricFamily("luxor_unpaid_balance", "The total unpaid balance on the account currently", BASE_LABEL_NAMES);
         unpaidBalanceGauge.addMetric(BASE_LABEL_VALUES, luxorApi.getBalance());
         mfs.add(unpaidBalanceGauge);
 
-        GaugeMetricFamily minerLastShareTimeGauge = new GaugeMetricFamily("miner_last_share_time", "The timestamp of when the miner sent its last share", MINER_LABEL_NAMES);
-        GaugeMetricFamily minerTotalSharesGauge = new GaugeMetricFamily("miner_total_shares", "Total shares sent to luxor by this miner", MINER_LABEL_NAMES);
+        GaugeMetricFamily minerLastShareTimeGauge = new GaugeMetricFamily("luxor_miner_last_share_time", "The timestamp of when the miner sent its last share", MINER_LABEL_NAMES);
+        GaugeMetricFamily minerTotalSharesGauge = new GaugeMetricFamily("luxor_miner_total_shares", "Total shares sent to luxor by this miner", MINER_LABEL_NAMES);
 
         for(Miner miner : luxorApi.getMiners()) {
             List<String> minerLabelValues = new ArrayList<>(BASE_LABEL_VALUES);
@@ -74,7 +74,7 @@ public class LuxorCollector extends Collector {
 
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
 
-        GaugeMetricFamily lastPayoutTimeGauge = new GaugeMetricFamily("last_Payout_time", "The timestamp of the last payout that was sent from luxor", BASE_LABEL_NAMES);
+        GaugeMetricFamily lastPayoutTimeGauge = new GaugeMetricFamily("luxor_last_payout_time", "The timestamp of the last payout that was sent from luxor", BASE_LABEL_NAMES);
         try {
             lastPayoutTimeGauge.addMetric(BASE_LABEL_VALUES, df.parse(luxorApi.getPayouts().get(luxorApi.getPayouts().size() - 1).getTime()).getTime());
         } catch (ParseException e) {
@@ -82,126 +82,14 @@ public class LuxorCollector extends Collector {
         }
         mfs.add(lastPayoutTimeGauge);
 
-        GaugeMetricFamily lastPayoutAmountGauge = new GaugeMetricFamily("last_payout_amount", "The amount of the last payout that was sent from luxor", BASE_LABEL_NAMES);
+        GaugeMetricFamily lastPayoutAmountGauge = new GaugeMetricFamily("luxor_last_payout_amount", "The amount of the last payout that was sent from luxor", BASE_LABEL_NAMES);
         lastPayoutAmountGauge.addMetric(BASE_LABEL_VALUES, Double.parseDouble(luxorApi.getPayouts().get(luxorApi.getPayouts().size() - 1).getAmount()));
         mfs.add(lastPayoutAmountGauge);
 
-        GaugeMetricFamily hashrateGauge = new GaugeMetricFamily("hashrate", "The total hashrate of the account as observed by luxor", BASE_LABEL_NAMES);
+        GaugeMetricFamily hashrateGauge = new GaugeMetricFamily("luxor_hashrate", "The total hashrate of the account as observed by luxor", BASE_LABEL_NAMES);
         hashrateGauge.addMetric(BASE_LABEL_VALUES, luxorApi.getHashrate().get(luxorApi.getHashrate().size() - 1).getHashrate());
         mfs.add(hashrateGauge);
 
         return mfs;
     }
 }
-
-/**
- , a = function e(t) {
- var n = this;
- r(this, e),
- this.MH = "MH",
- this.GH = "GH",
- this.TH = "TH",
- this.BaseUnit = "DEFAULT",
- this.hashrateTH = function(e) {
- return e / 1e12
- }
- ,
- this.hashrateGH = function(e) {
- return e / 1e9
- }
- ,
- this.hashrateMH = function(e) {
- return e / 1e6
- }
- ,
- this.toBaseUnit = function(e) {
- return 1e24
- }
- ,
- this.validAddress = function(e) {
- return !1
- }
- ,
- this.parseHashrate = function(e) {
- return e <= 1e9 ? n.hashrateMH(e).toFixed(2) + " " + n.MH : e <= 1e12 ? n.hashrateGH(e).toFixed(2) + " " + n.GH : n.hashrateTH(e).toFixed(2) + " " + n.TH
- }
- ,
- this.parsePrice = function(e) {
- var t = parseFloat(e);
- return t > 1 ? "$" + t.toFixed(2) : "¢" + (100 * t).toFixed(2)
- }
- ,
- this.getStats = function() {
- return new Promise(function(e, t) {
- n.client.get("/stats").then(function(t) {
- return e(n.parseStats(t.data))
- }).catch(function(e) {
- return t(e)
- })
- }
- )
- }
- ,
- this.getMiners = function() {
- return new Promise(function(e, t) {
- n.client.get("/miners").then(function(t) {
- return e(n.parseMiners(t.data))
- }).catch(function(e) {
- return t(e)
- })
- }
- )
- }
- ,
- this.getBlocks = function() {
- return new Promise(function(e, t) {
- n.client.get("/blocks").then(function(t) {
- return e(t.data)
- }).catch(function(e) {
- return t(e)
- })
- }
- )
- }
- ,
- this.getAddress = function(e) {
- return new Promise(function(t, r) {
- n.client.get("/user/" + e).then(function(e) {
- return t(e.data)
- }).catch(function(e) {
- return r(e)
- })
- }
- )
- }
- ,
- this.parseStats = function(e) {
- return {
- price: n.parsePrice(e.price),
- hashrate: n.parseHashrate(parseInt(e.hashrate, 10)),
- blocksFound: e.blocksFound,
- totalMiners: e.totalMiners,
- globalStats: e.globalStats
- }
- }
- ,
- this.parseMiners = function(e) {
- return e.map(function(e) {
- return {
- hashrate: e.hashrate,
- validShares: e.validShares,
- invalidShares: e.invalidShares,
- lastActive: e.lastActive,
- address: e.address
- }
- })
- }
- ;
- var o = "/api/" + t;
- this.client = i.default.create({
- baseURL: o,
- timeout: 2e4
- })
- };
- t.default = a
- */
