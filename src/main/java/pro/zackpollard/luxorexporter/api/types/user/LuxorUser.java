@@ -1,5 +1,5 @@
 
-package pro.zackpollard.luxorexporter.api.types;
+package pro.zackpollard.luxorexporter.api.types.user;
 
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @SuppressWarnings("unused")
-public class LuxorApi {
+public class LuxorUser {
 
     private String address;
     private double balance;

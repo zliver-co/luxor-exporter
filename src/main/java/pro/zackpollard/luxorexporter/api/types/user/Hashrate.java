@@ -1,5 +1,5 @@
 
-package pro.zackpollard.luxorexporter.api.types;
+package pro.zackpollard.luxorexporter.api.types.user;
 
 import lombok.Data;
 

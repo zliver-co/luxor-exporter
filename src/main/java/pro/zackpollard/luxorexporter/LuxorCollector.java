@@ -3,8 +3,8 @@ package pro.zackpollard.luxorexporter;
 import io.prometheus.client.Collector;
 import io.prometheus.client.GaugeMetricFamily;
 import pro.zackpollard.luxorexporter.api.rx.LuxorRetrofitApi;
-import pro.zackpollard.luxorexporter.api.types.LuxorApi;
-import pro.zackpollard.luxorexporter.api.types.Miner;
+import pro.zackpollard.luxorexporter.api.types.user.LuxorUser;
+import pro.zackpollard.luxorexporter.api.types.user.Miner;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -31,37 +31,37 @@ public class LuxorCollector extends Collector {
 
         LuxorRetrofitApi luxorRetrofitApi = retrofit.create(LuxorRetrofitApi.class);
 
-        LuxorApi luxorApi = new LuxorApi();
+        LuxorUser luxorUser = new LuxorUser();
         try {
-            luxorApi = luxorRetrofitApi.getUserStats("ba1e9620ed77fb1cb323d9aa5943f1f8caae64e343f4239034dac925f6a0c30eac8e3bc716d0").execute().body();
+            luxorUser = luxorRetrofitApi.getUser("ba1e9620ed77fb1cb323d9aa5943f1f8caae64e343f4239034dac925f6a0c30eac8e3bc716d0").execute().body();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        if(luxorApi == null) throw new NullPointerException("LuxorAPI response was null");
+        if(luxorUser == null) throw new NullPointerException("LuxorAPI response was null");
 
         List<MetricFamilySamples> mfs = new ArrayList<>();
 
         GaugeMetricFamily balanceGauge = new GaugeMetricFamily("luxor_balance", "The current total balance of the account", BASE_LABEL_NAMES);
-        balanceGauge.addMetric(BASE_LABEL_VALUES, luxorApi.getTotalPayouts());
+        balanceGauge.addMetric(BASE_LABEL_VALUES, luxorUser.getTotalPayouts());
         mfs.add(balanceGauge);
 
         GaugeMetricFamily blocksFoundGauge = new GaugeMetricFamily("luxor_blocks_found", "The total blocks that this account has found", BASE_LABEL_NAMES);
-        blocksFoundGauge.addMetric(BASE_LABEL_VALUES, luxorApi.getBlocksFound());
+        blocksFoundGauge.addMetric(BASE_LABEL_VALUES, luxorUser.getBlocksFound());
         mfs.add(blocksFoundGauge);
 
         GaugeMetricFamily lastShareTimeGauge = new GaugeMetricFamily("luxor_last_share_time", "The timestamp of when the last share was received by luxor", BASE_LABEL_NAMES);
-        lastShareTimeGauge.addMetric(BASE_LABEL_VALUES, luxorApi.getLastShareTime());
+        lastShareTimeGauge.addMetric(BASE_LABEL_VALUES, luxorUser.getLastShareTime());
         mfs.add(lastShareTimeGauge);
 
         GaugeMetricFamily unpaidBalanceGauge = new GaugeMetricFamily("luxor_unpaid_balance", "The total unpaid balance on the account currently", BASE_LABEL_NAMES);
-        unpaidBalanceGauge.addMetric(BASE_LABEL_VALUES, luxorApi.getBalance());
+        unpaidBalanceGauge.addMetric(BASE_LABEL_VALUES, luxorUser.getBalance());
         mfs.add(unpaidBalanceGauge);
 
         GaugeMetricFamily minerLastShareTimeGauge = new GaugeMetricFamily("luxor_miner_last_share_time", "The timestamp of when the miner sent its last share", MINER_LABEL_NAMES);
         GaugeMetricFamily minerTotalSharesGauge = new GaugeMetricFamily("luxor_miner_total_shares", "Total shares sent to luxor by this miner", MINER_LABEL_NAMES);
 
-        for(Miner miner : luxorApi.getMiners()) {
+        for(Miner miner : luxorUser.getMiners()) {
             List<String> minerLabelValues = new ArrayList<>(BASE_LABEL_VALUES);
             minerLabelValues.add(miner.getName());
 
@@ -76,18 +76,18 @@ public class LuxorCollector extends Collector {
 
         GaugeMetricFamily lastPayoutTimeGauge = new GaugeMetricFamily("luxor_last_payout_time", "The timestamp of the last payout that was sent from luxor", BASE_LABEL_NAMES);
         try {
-            lastPayoutTimeGauge.addMetric(BASE_LABEL_VALUES, df.parse(luxorApi.getPayouts().get(luxorApi.getPayouts().size() - 1).getTime()).getTime());
+            lastPayoutTimeGauge.addMetric(BASE_LABEL_VALUES, df.parse(luxorUser.getPayouts().get(luxorUser.getPayouts().size() - 1).getTime()).getTime());
         } catch (ParseException e) {
             e.printStackTrace();
         }
         mfs.add(lastPayoutTimeGauge);
 
         GaugeMetricFamily lastPayoutAmountGauge = new GaugeMetricFamily("luxor_last_payout_amount", "The amount of the last payout that was sent from luxor", BASE_LABEL_NAMES);
-        lastPayoutAmountGauge.addMetric(BASE_LABEL_VALUES, Double.parseDouble(luxorApi.getPayouts().get(luxorApi.getPayouts().size() - 1).getAmount()));
+        lastPayoutAmountGauge.addMetric(BASE_LABEL_VALUES, Double.parseDouble(luxorUser.getPayouts().get(luxorUser.getPayouts().size() - 1).getAmount()));
         mfs.add(lastPayoutAmountGauge);
 
         GaugeMetricFamily hashrateGauge = new GaugeMetricFamily("luxor_hashrate", "The total hashrate of the account as observed by luxor", BASE_LABEL_NAMES);
-        hashrateGauge.addMetric(BASE_LABEL_VALUES, luxorApi.getHashrate().get(luxorApi.getHashrate().size() - 1).getHashrate());
+        hashrateGauge.addMetric(BASE_LABEL_VALUES, luxorUser.getHashrate().get(luxorUser.getHashrate().size() - 1).getHashrate());
         mfs.add(hashrateGauge);
 
         return mfs;
