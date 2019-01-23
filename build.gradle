@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'application'
     id 'net.ltgt.apt' version '0.10'
 }
 
@@ -22,6 +23,8 @@ dependencies {
     compile group: 'io.prometheus', name: 'simpleclient_httpserver', version: '0.6.0'
     compile group: 'io.prometheus', name: 'simpleclient_hotspot', version: '0.6.0'
 
-    compileOnly 'org.projectlombok:lombok:1.18.4'
-    apt 'org.projectlombok:lombok:1.18.4'
+    annotationProcessor 'org.projectlombok:lombok:1.18.4'
+    implementation 'org.projectlombok:lombok:1.18.4'
 }
+
+mainClassName = "pro.zackpollard.luxorexporter.LuxorExporter"
