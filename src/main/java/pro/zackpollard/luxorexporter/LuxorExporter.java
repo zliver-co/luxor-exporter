@@ -1,6 +1,7 @@
 package pro.zackpollard.luxorexporter;
 
 import io.prometheus.client.exporter.HTTPServer;
+import io.prometheus.client.hotspot.DefaultExports;
 
 import java.io.IOException;
 
@@ -25,6 +26,6 @@ public class LuxorExporter {
             e.printStackTrace();
         }
 
-        //DefaultExports.initialize();
+        DefaultExports.initialize();
     }
 }
