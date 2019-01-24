@@ -20,8 +20,6 @@ public class LuxorCollector extends Collector {
     private static final List<String> USER_LABEL_NAMES = Arrays.asList("user_hash");
     private static final List<String> USER_LABEL_VALUES = Arrays.asList("ba1e9620ed77fb1cb323d9aa5943f1f8caae64e343f4239034dac925f6a0c30eac8e3bc716d0");
     private static final List<String> MINER_LABEL_NAMES = Arrays.asList("user_hash", "miner_name");
-    private static final List<String> GLOBAL_LABEL_NAMES = Arrays.asList("");
-    private static final List<String> GLOBAL_LABEL_VALUES = Arrays.asList("");
     private static final String LUXOR_BASE_URL = "https://mining.luxor.tech";
 
     @Override
@@ -99,24 +97,19 @@ public class LuxorCollector extends Collector {
 
         //Global Stats
 
-        GaugeMetricFamily globalBlocksGauge = new GaugeMetricFamily("luxor_global_blocks_found", "The total blocks found by the entire luxor siacoin pool", GLOBAL_LABEL_NAMES);
-        globalBlocksGauge.addMetric(GLOBAL_LABEL_VALUES, luxorStats.getBlocksFound());
+        GaugeMetricFamily globalBlocksGauge = new GaugeMetricFamily("luxor_global_blocks_found", "The total blocks found by the entire luxor siacoin pool", luxorStats.getBlocksFound());
         mfs.add(globalBlocksGauge);
 
-        GaugeMetricFamily globalHashrateGauge = new GaugeMetricFamily("luxor_global_hashrate", "The total hashrate of the entire luxor network", GLOBAL_LABEL_NAMES);
-        globalHashrateGauge.addMetric(GLOBAL_LABEL_VALUES, luxorStats.getHashrate());
+        GaugeMetricFamily globalHashrateGauge = new GaugeMetricFamily("luxor_global_hashrate", "The total hashrate of the entire luxor network", luxorStats.getHashrate());
         mfs.add(globalHashrateGauge);
 
-        GaugeMetricFamily globalPriceGauge = new GaugeMetricFamily("luxor_global_siacoin_price", "The current price of siacoin in USD", GLOBAL_LABEL_NAMES);
-        globalPriceGauge.addMetric(GLOBAL_LABEL_VALUES, Double.parseDouble(luxorStats.getPrice()));
+        GaugeMetricFamily globalPriceGauge = new GaugeMetricFamily("luxor_global_siacoin_price", "The current price of siacoin in USD", Double.parseDouble(luxorStats.getPrice()));
         mfs.add(globalPriceGauge);
 
-        GaugeMetricFamily globalTotalMiners = new GaugeMetricFamily("luxor_global_total_miners", "The total amount of miners on the luxor pool currently", GLOBAL_LABEL_NAMES);
-        globalTotalMiners.addMetric(GLOBAL_LABEL_VALUES, luxorStats.getTotalMiners());
+        GaugeMetricFamily globalTotalMiners = new GaugeMetricFamily("luxor_global_total_miners", "The total amount of miners on the luxor pool currently", luxorStats.getTotalMiners());
         mfs.add(globalTotalMiners);
 
-        GaugeMetricFamily globalTotalDifficulty = new GaugeMetricFamily("luxor_global_difficulty", "The current difficulty of the siacoin network", GLOBAL_LABEL_NAMES);
-        globalTotalDifficulty.addMetric(GLOBAL_LABEL_VALUES, luxorStats.getGlobalStats().get(luxorStats.getGlobalStats().size() - 1).getNetworkDifficulty());
+        GaugeMetricFamily globalTotalDifficulty = new GaugeMetricFamily("luxor_global_difficulty", "The current difficulty of the siacoin network", luxorStats.getGlobalStats().get(luxorStats.getGlobalStats().size() - 1).getNetworkDifficulty());
         mfs.add(globalTotalDifficulty);
 
         return mfs;
