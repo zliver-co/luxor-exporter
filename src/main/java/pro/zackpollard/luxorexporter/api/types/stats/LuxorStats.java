@@ -9,8 +9,8 @@ import lombok.Data;
 public class LuxorStats {
 
     private long blocksFound;
-    private List<GlobalStat> globalStats;
     private double hashrate;
     private String price;
     private long totalMiners;
+    private List<GlobalStat> globalStats;
 }
