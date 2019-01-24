@@ -6,8 +6,8 @@ RUN gradle build
 
 FROM openjdk:11-jre-slim
 EXPOSE 8080
-COPY --from=builder /home/gradle/src/build/distributions/luxor-exporter-1.0-SNAPSHOT.tar /app/luxor-exporter.tar
+COPY --from=builder /home/gradle/src/build/distributions/luxor-exporter-1.1.0-SNAPSHOT.tar /app/luxor-exporter.tar
 WORKDIR /app
 RUN tar -xvf luxor-exporter.tar
-WORKDIR /app/luxor-exporter-1.0-SNAPSHOT
+WORKDIR /app/luxor-exporter-1.1.0-SNAPSHOT
 CMD bin/luxor-exporter
