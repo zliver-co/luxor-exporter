@@ -10,7 +10,7 @@ public class LuxorStats {
 
     private long blocksFound;
     private double hashrate;
-    private String price;
+    private double price;
     private long totalMiners;
     private List<GlobalStat> globalStats;
 }
