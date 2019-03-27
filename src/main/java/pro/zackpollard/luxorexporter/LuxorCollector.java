@@ -53,6 +53,7 @@ public class LuxorCollector extends Collector {
 
         GaugeMetricFamily usdBalanceGauge = new GaugeMetricFamily("luxor_user_balance_usd", "The current total balance of the account in USD", USER_LABEL_NAMES);
         usdBalanceGauge.addMetric(USER_LABEL_VALUES, luxorUser.getTotalPayouts() * luxorStats.getPrice());
+        mfs.add(usdBalanceGauge);
 
         GaugeMetricFamily blocksFoundGauge = new GaugeMetricFamily("luxor_user_blocks_found", "The total blocks that this account has found", USER_LABEL_NAMES);
         blocksFoundGauge.addMetric(USER_LABEL_VALUES, luxorUser.getBlocksFound());
