@@ -4,6 +4,7 @@ import io.prometheus.client.Collector;
 import io.prometheus.client.GaugeMetricFamily;
 import pro.zackpollard.luxorexporter.api.rx.LuxorRetrofitApi;
 import pro.zackpollard.luxorexporter.api.types.stats.LuxorStats;
+import pro.zackpollard.luxorexporter.api.types.user.Hashrate;
 import pro.zackpollard.luxorexporter.api.types.user.LuxorUser;
 import pro.zackpollard.luxorexporter.api.types.user.Miner;
 import retrofit2.Retrofit;
@@ -96,7 +97,8 @@ public class LuxorCollector extends Collector {
         mfs.add(lastPayoutAmountGauge);
 
         GaugeMetricFamily hashrateGauge = new GaugeMetricFamily("luxor_user_hashrate", "The total hashrate of the account as observed by luxor", USER_LABEL_NAMES);
-        hashrateGauge.addMetric(USER_LABEL_VALUES, luxorUser.getHashrate().get(luxorUser.getHashrate().size() - 1).getHashrate());
+        List<Hashrate> hashrate = luxorUser.getHashrate();
+        hashrateGauge.addMetric(USER_LABEL_VALUES, hashrate.size() > 0 ? hashrate.get(luxorUser.getHashrate().size() - 1).getHashrate() : 0);
         mfs.add(hashrateGauge);
 
         //Global Stats
