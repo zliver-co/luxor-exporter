@@ -4,6 +4,8 @@ package pro.zackpollard.luxorexporter.api.types.stats;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
+import java.math.BigInteger;
+
 @Data
 @SuppressWarnings("unused")
 public class GlobalStat {
@@ -13,7 +15,7 @@ public class GlobalStat {
     @SerializedName("coin_price")
     private String coinPrice;
     @SerializedName("network_difficulty")
-    private long networkDifficulty;
+    private BigInteger networkDifficulty;
     @SerializedName("network_hashrate")
     private long networkHashrate;
     @SerializedName("pool_hashrate")
