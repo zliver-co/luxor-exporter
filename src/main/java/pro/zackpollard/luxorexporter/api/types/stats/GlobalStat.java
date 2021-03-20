@@ -15,7 +15,7 @@ public class GlobalStat {
     @SerializedName("coin_price")
     private String coinPrice;
     @SerializedName("network_difficulty")
-    private BigInteger networkDifficulty;
+    private double networkDifficulty;
     @SerializedName("network_hashrate")
     private long networkHashrate;
     @SerializedName("pool_hashrate")
